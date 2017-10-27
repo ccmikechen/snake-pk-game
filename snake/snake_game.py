@@ -5,7 +5,7 @@ from snake.scenes.game_scene import GameScene
 
 class SnakeGame(Game):
     def __init__(self):
-        super().__init__(title='Snake',
+        super().__init__(title='Snake Battle',
                          window_size=(1440, 960),
                          fps=60)
 

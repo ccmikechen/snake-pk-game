@@ -18,4 +18,4 @@ class MenuScene(Scene):
     def on_key_down(self, key):
         if key == pygame.K_SPACE:
             R.get_sound("enter").play()
-            self.start_scene("game")
+            self.start_and_reset_scene("game")

@@ -34,8 +34,10 @@ class Animation(Entity):
 
             if self.progress > self.time:
                 self.stop()
-                if self.loops > 0:
-                    self.play()
+                if self.loops < 0:
+                    self.play(self.loops)
+                elif self.loops > 0:
+                    self.play(self.loops - 1)
 
     def render(self, screen):
         if self.is_playing:

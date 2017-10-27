@@ -1,6 +1,6 @@
 import pygame
 
-def show_text(screen, string, color, size, position, align_hor="top", align_ver="left"):
+def show_text(screen, string, color, size, position, align_hor="left", align_ver="top"):
     font = pygame.font.SysFont('Noto Sans CJK SC', size)
     text = font.render(string, 1, color)
     text_size = font.size(string)

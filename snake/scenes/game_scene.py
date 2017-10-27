@@ -29,7 +29,7 @@ class GameScene(Scene):
         self.game_status = None
         self.player_1 = Player(self, (100, 100), BLUE)
         self.player_1.add_snake_length(10)
-        self.player_2 = Player(self, (300, 100), RED)
+        self.player_2 = Player(self, (600, 100), RED)
         self.player_2.add_snake_length(10)
         self.foods = []
 
@@ -43,7 +43,7 @@ class GameScene(Scene):
             elif player_1_collisions < player_2_collisions:
                 return GameStatus(GAME_OVER, winner=self.player_1, loser=self.player_2)
             else:
-                return GameStatus(DRAW)
+                return GameStatus(DRAW, loser=self.player_1)
 
         return GameStatus(CONTINUE)
 
@@ -120,6 +120,8 @@ class GameScene(Scene):
         if key == pygame.K_SPACE:
             if not self.is_running:
                 self.reset()
+        if key == pygame.K_BACKSPACE:
+            self.start_scene("menu")
         if key == pygame.K_z:
             self.player_1.add_snake_length(10)
         if key == pygame.K_x:
@@ -155,8 +157,11 @@ class GameScene(Scene):
         show_text(screen, "press SPACE to continue", WHITE, 30, (center_pos[0], center_pos[1] + 100), align_hor="center", align_ver="center")
 
     def _show_draw_message(self, screen):
-        show_text(screen, "Draw", WHITE, 50, (200, 200))
-        show_text(screen, "press SPACE to continue", WHITE, 30, (200, 280))
+        bound = self.game.get_bound()
+        center_pos = (bound[0] / 2, bound[1] / 3)
+
+        show_text(screen, "Draw", WHITE, 50, center_pos, align_hor="center", align_ver="center")
+        show_text(screen, "press SPACE to continue", WHITE, 30, (center_pos[0], center_pos[1] + 100), align_hor="center", align_ver="center")
 class GameStatus:
     def __init__(self, status, winner=None, loser=None):
         self.status = status
