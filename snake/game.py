@@ -28,7 +28,7 @@ class Game:
             print("Game start")
             self.is_running = True
             self.last_ticks = pygame.time.get_ticks()
-            self._game_loop()
+            self.game_loop()
 
     def stop(self):
         self.is_running = False
@@ -46,13 +46,13 @@ class Game:
     def _load_resources(self):
         R.load()
 
-    def _game_loop(self):
+    def game_loop(self):
         while self.is_running:
-            self._do_events()
+            self.do_events()
             self.update()
             self.render()
 
-    def _do_events(self):
+    def do_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.on_close_window()

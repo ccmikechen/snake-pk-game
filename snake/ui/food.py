@@ -15,12 +15,12 @@ class Food(Entity):
         if self.generating:
             self.generating_progress += delta
 
-            if self.generating_progress >= 0.5:
+            if self.generating_progress >= 0.2:
                 self.generating = False
 
     def render(self, screen):
         if self.generating:
-            size = int(self.generating_progress * self.size * 2)
+            size = int(self.generating_progress * self.size * 5)
             pygame.draw.circle(screen, (0, 255, 0), self.position, size, 0)
         else:
             pygame.draw.circle(screen, (0, 255, 0), self.position, self.size, 0)

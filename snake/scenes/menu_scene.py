@@ -4,12 +4,10 @@ from snake.ui.information import Information
 
 class MenuScene(Scene):
     def setup(self):
-        self.information_ui = Information("Menu")
+        self.information_ui = Information()
 
     def update(self, delta):
-        self.information_ui.update(delta, {
-            "fps" : self.game.get_fps()
-        })
+        self.information_ui.update(delta)
 
     def render(self, screen):
         screen.fill((0, 0, 0))

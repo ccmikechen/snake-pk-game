@@ -17,6 +17,9 @@ class Player(Entity):
 
         return collisions
 
+    def get_score(self):
+        return self.snake.body.length
+
     def update(self, delta):
         if self.is_turning_right:
             self.snake.add_direction(360 * delta)

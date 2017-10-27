@@ -4,6 +4,7 @@ from math import sqrt
 from snake.scene import Scene
 from snake.ui.player import Player
 from snake.ui.food import Food
+from snake.ui.game_info import GameInfo
 from snake.game_helper import show_text
 
 BLUE = (0, 0, 255)
@@ -14,11 +15,12 @@ GAME_OVER = "game_over"
 DRAW = "draw"
 CONTINUE = "continue"
 
-MAX_FOODS = 10
+MAX_FOODS = 20
 
 class GameScene(Scene):
     def setup(self):
         self.reset()
+        self.game_info = GameInfo(self.game.get_bound())
 
     def reset(self):
         self.is_running = True
@@ -63,7 +65,6 @@ class GameScene(Scene):
     def check_food_collision(self, snake, food):
         head = snake.body.get_head()
         distance = sqrt((head[0] - food.position[0])**2 + (head[1] - food.position[1])**2)
-        print(distance)
 
         return distance < (snake.body.size + food.size)
 
@@ -78,7 +79,10 @@ class GameScene(Scene):
             self.player_2.update(delta)
             self.check_eating_foods(self.player_1)
             self.check_eating_foods(self.player_2)
-
+            self.game_info.update(delta, {
+                "score_1": self.player_1.get_score(),
+                "score_2": self.player_2.get_score()
+            })
             self.game_status = self.get_game_status()
 
             if self.game_status.status != CONTINUE:
@@ -98,6 +102,8 @@ class GameScene(Scene):
                 self._show_winner_message(screen, self.game_status.winner)
             elif self.game_status.status == DRAW:
                 self._show_draw_message(screen)
+
+        self.game_info.render(screen)
 
     def on_key_down(self, key):
         if key == pygame.K_SPACE:
@@ -127,12 +133,15 @@ class GameScene(Scene):
             self.player_2.is_turning_left = False
 
     def _show_winner_message(self, screen, winner):
-        if winner == self.player_1:
-            show_text(screen, "Player 1 win", BLUE, 50, (200, 200))
-        elif winner == self.player_2:
-            show_text(screen, "Player 2 win", RED, 50, (200, 200))
+        bound = self.game.get_bound()
+        center_pos = (bound[0] / 2, bound[1] / 3)
 
-        show_text(screen, "press SPACE to continue", WHITE, 30, (200, 280))
+        if winner == self.player_1:
+            show_text(screen, "Player 1 win", BLUE, 50, center_pos, align_hor="center", align_ver="center")
+        elif winner == self.player_2:
+            show_text(screen, "Player 2 win", RED, 50, center_pos, align_hor="center", align_ver="center")
+
+        show_text(screen, "press SPACE to continue", WHITE, 30, (center_pos[0], center_pos[1] + 100), align_hor="center", align_ver="center")
 
     def _show_draw_message(self, screen):
         show_text(screen, "Draw", WHITE, 50, (200, 200))

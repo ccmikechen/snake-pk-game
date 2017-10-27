@@ -1,6 +1,23 @@
 import pygame
 
-def show_text(screen, text, color, size, position):
+def show_text(screen, string, color, size, position, align_hor="top", align_ver="left"):
     font = pygame.font.SysFont('Noto Sans CJK SC', size)
-    string = font.render(text, 1, color)
-    screen.blit(string, position)
+    text = font.render(string, 1, color)
+    text_size = font.size(string)
+
+    aligned_x = position[0]
+    aligned_y = position[1]
+
+    if align_hor == "center":
+        aligned_x -= text_size[0] / 2
+    elif align_hor == "right":
+        aligned_x -= text_size[0]
+
+    if align_ver == "center":
+        aligned_y -= text_size[1] / 2
+    elif align_ver == "bottom":
+        aligned_y -= text_size[1]
+
+    screen.blit(text, (aligned_x, aligned_y))
+
+
