@@ -18,7 +18,10 @@ class Player(Entity):
         return collisions
 
     def get_score(self):
-        return self.snake.body.length
+        return self.snake.get_length()
+
+    def get_position(self):
+        return self.snake.get_head()
 
     def update(self, delta):
         if self.is_turning_right:

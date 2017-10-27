@@ -1,4 +1,5 @@
 import pygame
+from snake.resource import R
 from snake.entity import Entity
 
 class Food(Entity):
@@ -9,6 +10,7 @@ class Food(Entity):
         self.generating_progress = 0.0
 
     def active(self, snake):
+        R.get_sound("eat").play()
         snake.add_length(3)
 
     def update(self, delta):

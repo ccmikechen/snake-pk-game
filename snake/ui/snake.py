@@ -26,6 +26,12 @@ class Snake(Entity):
     def add_length(self, delta):
         self.body.add_length(delta)
 
+    def get_length(self):
+        return self.body.length
+
+    def get_head(self):
+        return self.body.get_head()
+
     def count_collisions(self, snakes):
         counter = 0
         head = self.body.get_head()

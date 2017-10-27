@@ -1,10 +1,12 @@
 import pygame
+from snake.resource import R
 from random import randint
 from math import sqrt
 from snake.scene import Scene
 from snake.ui.player import Player
 from snake.ui.food import Food
 from snake.ui.game_info import GameInfo
+from snake.animations.blood_animation import BloodAnimation
 from snake.game_helper import show_text
 
 BLUE = (0, 0, 255)
@@ -37,9 +39,9 @@ class GameScene(Scene):
 
         if player_1_collisions > 5 or player_2_collisions > 5:
             if player_1_collisions > player_2_collisions:
-                return GameStatus(GAME_OVER, self.player_2)
+                return GameStatus(GAME_OVER, winner=self.player_2, loser=self.player_1)
             elif player_1_collisions < player_2_collisions:
-                return GameStatus(GAME_OVER, self.player_1)
+                return GameStatus(GAME_OVER, winner=self.player_1, loser=self.player_2)
             else:
                 return GameStatus(DRAW)
 
@@ -80,16 +82,24 @@ class GameScene(Scene):
             self.check_eating_foods(self.player_1)
             self.check_eating_foods(self.player_2)
             self.game_info.update(delta, {
-                "score_1": self.player_1.get_score(),
-                "score_2": self.player_2.get_score()
+                "score_1": self.player_1.get_score() - 11,
+                "score_2": self.player_2.get_score() - 11
             })
             self.game_status = self.get_game_status()
 
             if self.game_status.status != CONTINUE:
+                R.get_sound("dead").play()
+                loser_pos = self.game_status.loser.get_position()
+                animation_pos = (loser_pos[0] - 50, loser_pos[1] - 40)
+                self.play_animation(BloodAnimation(1.0, animation_pos, (100, 100)))
                 self.is_running = False
+        super().update(delta)
 
     def render(self, screen):
         screen.fill((0, 0, 0))
+
+        background = pygame.transform.scale(R.get_image("dirt"), self.game.get_bound())
+        screen.blit(background, (0, 0))
 
         for food in self.foods:
             food.render(screen)
@@ -104,6 +114,7 @@ class GameScene(Scene):
                 self._show_draw_message(screen)
 
         self.game_info.render(screen)
+        super().render(screen)
 
     def on_key_down(self, key):
         if key == pygame.K_SPACE:
@@ -147,6 +158,7 @@ class GameScene(Scene):
         show_text(screen, "Draw", WHITE, 50, (200, 200))
         show_text(screen, "press SPACE to continue", WHITE, 30, (200, 280))
 class GameStatus:
-    def __init__(self, status, winner=None):
+    def __init__(self, status, winner=None, loser=None):
         self.status = status
         self.winner = winner
+        self.loser = loser
