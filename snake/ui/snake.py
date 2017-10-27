@@ -1,5 +1,6 @@
 from snake.entity import Entity
 from snake.ui.snake_body import SnakeBody
+from math import sqrt
 
 class Snake(Entity):
     def __init__(self, bound, position):
@@ -25,9 +26,24 @@ class Snake(Entity):
     def add_length(self, delta):
         self.body.add_length(delta)
 
+    def count_collisions(self, snakes):
+        counter = 0
+        head = self.body.get_head()
+
+        for snake in snakes:
+            snake_body = snake.body
+            for body in snake_body.body_path:
+                if self._check_collision(head, self.body.size, body, snake_body.size):
+                    counter += 1
+
+        return counter
+
     def update(self, delta):
         self.body.move(self.direction, self.speed * delta)
 
     def render(self, screen):
         self.body.render(screen)
 
+    def _check_collision(self, pos_a, size_a, pos_b, size_b):
+        distance = sqrt((pos_a[0] - pos_b[0])**2 + (pos_a[1] - pos_b[1])**2)
+        return distance <= (size_a + size_b)

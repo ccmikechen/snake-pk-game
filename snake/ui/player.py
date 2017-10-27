@@ -12,6 +12,11 @@ class Player(Entity):
     def add_snake_length(self, delta):
         self.snake.add_length(delta)
 
+    def check_collision(self, other_snakes):
+        collisions = self.snake.count_collisions(other_snakes)
+
+        return collisions
+
     def update(self, delta):
         if self.is_turning_right:
             self.snake.add_direction(360 * delta)

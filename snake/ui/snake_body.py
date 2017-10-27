@@ -20,7 +20,7 @@ class SnakeBody(Entity):
         self.position = new_position
 
     def move(self, direction, speed):
-        (last_x, last_y) = self.body_path[-1]
+        (last_x, last_y) = self.get_head()
         x = last_x + speed * cos(direction / 180 * pi)
         y = last_y + speed * sin(direction / 180 * pi)
         self.body_path.append((x % self.bound[0], y % self.bound[1]))
@@ -31,6 +31,9 @@ class SnakeBody(Entity):
 
     def add_length(self, delta):
         self.length += delta
+
+    def get_head(self):
+        return self.body_path[-1]
 
     def update(self, delta, params):
         pass
