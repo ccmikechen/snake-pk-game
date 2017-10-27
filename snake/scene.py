@@ -3,8 +3,12 @@ import pygame
 class Scene:
     def __init__(self, game):
         self.game = game
+        self.setup()
 
-    def update(self):
+    def setup(self):
+        raise NotImplementedError()
+
+    def update(self, _delta):
         raise NotImplementedError()
 
     def render(self, _screen):
@@ -13,11 +17,17 @@ class Scene:
     def start_scene(self, name):
         self.game.start_scene(name)
 
+    def start_and_reset_scene(self, name):
+        self.game.start_and_reset_scene(name)
+
     def on_key_down(self, _key):
         pass
 
     def on_key_up(self, _key):
         pass
+
+    def get_bound(self):
+        return self.game.get_bound()
 
 class ScenesManager:
     def __init__(self, game):

@@ -3,12 +3,13 @@ from snake.scene import Scene
 from snake.ui.information import Information
 
 class TestScene(Scene):
-    def __init__(self, game):
-        super().__init__(game)
+    def setup(self):
         self.information_ui = Information("Test")
 
-    def update(self):
-        self.information_ui.update()
+    def update(self, delta):
+        self.information_ui.update(delta, {
+            "fps" : self.game.get_fps()
+        })
 
     def render(self, screen):
         screen.fill((255, 0, 0))

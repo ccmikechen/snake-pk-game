@@ -27,7 +27,11 @@ class Game:
         else:
             print("Game start")
             self.is_running = True
+            self.last_ticks = pygame.time.get_ticks()
             self._game_loop()
+
+    def stop(self):
+        self.is_running = False
 
     def register_scene(self, scene_class, name):
         self.scenes_manager.register(scene_class, name)
@@ -35,14 +39,18 @@ class Game:
     def start_scene(self, name, params={}):
         self.current_scene = self.scenes_manager.get_scene_by_name(name)
 
+    def start_and_reset_scene(self, name, params={}):
+        self.start_scene(name, params)
+        self.current_scene.reset()
+
     def _load_resources(self):
         R.load()
 
     def _game_loop(self):
         while self.is_running:
             self._do_events()
-            self.render()
             self.update()
+            self.render()
 
     def _do_events(self):
         for event in pygame.event.get():
@@ -54,7 +62,11 @@ class Game:
                 self.current_scene.on_key_up(event.key)
 
     def update(self):
-        self.current_scene.update()
+        t = pygame.time.get_ticks()
+        self.delta = (t - self.last_ticks) / 1000.0
+        self.last_ticks = t
+
+        self.current_scene.update(self.delta)
 
     def render(self):
         self.current_scene.render(self.screen)
@@ -62,6 +74,12 @@ class Game:
         self.clock.tick(self.fps)
 
     def on_close_window(self):
-        pygame.quit()
+        self.stop()
 
+    def get_fps(self):
+        if self.delta <= 0:
+            return 0
+        return 1 / self.delta
 
+    def get_bound(self):
+        return self.screen.get_size()
