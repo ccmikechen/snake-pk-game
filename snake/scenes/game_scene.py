@@ -12,12 +12,14 @@ from snake.game_helper import show_text
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
-
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+FOOD_COLORS = [YELLOW, GREEN]
 GAME_OVER = "game_over"
 DRAW = "draw"
 CONTINUE = "continue"
 
-MAX_FOODS = 20
+MAX_FOODS = 50
 
 class GameScene(Scene):
     def setup(self):
@@ -56,7 +58,9 @@ class GameScene(Scene):
         (x_bound, y_bound) = self.game.get_bound()
         x = randint(20, x_bound - 20)
         y = randint(20, y_bound - 20)
-        self.foods.append(Food((x, y), 10))
+        size = 20
+        color = FOOD_COLORS[randint(0, len(FOOD_COLORS) - 1)]
+        self.foods.append(Food((x, y), size, color))
 
     def check_eating_foods(self, player):
         for food in self.foods:

@@ -17,3 +17,5 @@ class Information(Entity):
 
         show_text(screen, 'Made by', WHITE, 20, (bound[0] - 400, bound[1] - 400))
         show_text(screen, '四資四甲 1103137124 陳銘嘉', WHITE, 20, (bound[0] - 400, bound[1] - 350))
+        show_text(screen, '四子四乙 1103105242 陳冠宏', WHITE, 20, (bound[0] - 400, bound[1] - 300))
+        show_text(screen, '四工二甲 1105107148 周晉毅', WHITE, 20, (bound[0] - 400, bound[1] - 250))

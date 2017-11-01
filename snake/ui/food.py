@@ -3,15 +3,16 @@ from snake.resource import R
 from snake.entity import Entity
 
 class Food(Entity):
-    def __init__(self, position, size):
+    def __init__(self, position, size, color=(0, 255, 0)):
         self.position = position
         self.size = size
+        self.color = color
         self.generating = True
         self.generating_progress = 0.0
 
     def active(self, snake):
         R.get_sound("eat").play()
-        snake.add_length(3)
+        snake.add_length(10)
 
     def update(self, delta):
         if self.generating:
@@ -23,7 +24,7 @@ class Food(Entity):
     def render(self, screen):
         if self.generating:
             size = int(self.generating_progress * self.size * 5)
-            pygame.draw.circle(screen, (0, 255, 0), self.position, size, 0)
+            pygame.draw.circle(screen, self.color, self.position, size, 0)
         else:
-            pygame.draw.circle(screen, (0, 255, 0), self.position, self.size, 0)
+            pygame.draw.circle(screen, self.color, self.position, self.size, 0)
 
