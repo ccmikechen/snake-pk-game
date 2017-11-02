@@ -6,7 +6,7 @@ class Game:
     def __init__(self, title, window_size, fps):
         print("Initial game")
 #        pygame.mixer.pre_init(11025, -16, 2, 512)
-        pygame.mixer.init()
+#        pygame.mixer.init()
         pygame.init()
         pygame.display.set_caption(title)
 

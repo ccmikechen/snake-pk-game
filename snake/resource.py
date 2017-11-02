@@ -11,9 +11,11 @@ class Resource:
 
         self.images["blood"] = pygame.image.load("snake/images/blood.png").convert_alpha()
         self.images["dirt"] = pygame.image.load("snake/images/dirt.png")
+
         self.sounds["eat"] = pygame.mixer.Sound("snake/music/eat.wav")
         self.sounds["enter"] = pygame.mixer.Sound("snake/music/match2.wav")
         self.sounds["dead"] = pygame.mixer.Sound("snake/music/dead.wav")
+
         self.music["menu"] = "snake/music/menubgm.mp3"
 
         print("Resources loaded.")

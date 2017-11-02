@@ -26,5 +26,8 @@ class Food(Entity):
             size = int(self.generating_progress * self.size * 5)
             pygame.draw.circle(screen, self.color, self.position, size, 0)
         else:
+#            food_image = pygame.transform.scale(R.get_image("blood"), (self.size, self.size))
+#            screen.blit(food_image, self.position)
+
             pygame.draw.circle(screen, self.color, self.position, self.size, 0)
 

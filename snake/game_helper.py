@@ -1,7 +1,14 @@
 import pygame
+import platform
 
 def show_text(screen, string, color, size, position, align_hor="left", align_ver="top"):
-    font = pygame.font.SysFont('Noto Sans CJK SC', size)
+    font_type = ""
+    if platform.system() == "Linux":
+        font_type = 'Noto Sans CJK SC'
+    elif platform.system() == "Windows":
+        font_type = "DFKai-SB"
+
+    font = pygame.font.SysFont(font_type, size)
     text = font.render(string, 1, color)
     text_size = font.size(string)
 
